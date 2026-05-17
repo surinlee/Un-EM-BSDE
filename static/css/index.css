@@ -337,6 +337,11 @@ body {
   color: var(--text-secondary);
 }
 
+.content.has-text-justified.abstract-content {
+  font-size: 0.975rem;
+  line-height: 1.7;
+}
+
 .content.has-text-justified p {
   margin-bottom: 1.5rem;
 }

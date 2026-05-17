@@ -109,20 +109,15 @@
               <div class="column has-text-centered">
                 <div class="publication-links">
                   <span class="link-block">
-                    <a href="#" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                      <span>Paper</span>
-                    </a>
-                  </span>
-                  <span class="link-block">
-                    <a href="https://github.com/surinlee/Un-EM-BSDE" target="_blank"
+                    <a href="https://github.com/seojaemin22/Un-EM-BSDE" target="_blank"
                       class="external-link button is-normal is-rounded is-dark">
                       <span class="icon"><i class="fab fa-github"></i></span>
                       <span>Code</span>
                     </a>
                   </span>
                   <span class="link-block">
-                    <a href="#" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <a href="https://arxiv.org/abs/2605.14643" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
                       <span class="icon"><i class="ai ai-arxiv"></i></span>
                       <span>arXiv</span>
                     </a>
@@ -141,160 +136,134 @@
         <div class="columns is-centered has-text-centered">
           <div class="column is-four-fifths">
             <h2 class="title is-3">Abstract</h2>
-            <div class="content has-text-justified">
+            <div class="content has-text-justified abstract-content">
               <p>
-                We propose <strong>Un-EM-BSDE</strong>, an unbiased and second-order-free training framework for BSDE-based 
-                PDE solvers. Our method eliminates Euler-Maruyama discretization bias without requiring Hessian computations, 
-                achieving accuracy comparable to unbiased baselines while maintaining training efficiency similar to EM-BSDE.
+                Deep learning methods based on backward stochastic differential equations (BSDEs) have emerged as competitive alternatives to physics-informed neural networks (PINNs) for solving high-dimensional partial differential equations (PDEs). By leveraging probabilistic representations, BSDE approaches can avoid the curse of dimensionality and often admit second-order-free training objectives that do not require explicit Hessian evaluations. It has recently been established that the commonly used Euler–Maruyama (EM) time discretization induces an intrinsic bias in BSDE training losses. While high-order schemes such as Heun can fully eliminate this bias, such schemes re-introduce second-order spatial derivatives and incur substantial computational overhead. In this work, we provide a principled analysis of EM-induced loss bias and propose an unbiased, second-order-free training framework that preserves the computational advantages of BSDE methods.
               </p>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Proposed Method Section -->
-    <section class="section hero">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <h2 class="title is-3">Method</h2>
-            <div class="content has-text-justified">
-              <p>
-                Un-EM-BSDE eliminates discretization bias by forming independent error groups and multiplying their averages, 
-                yielding an unbiased estimator without second-order derivatives.
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Figure 1 -->
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <figure class="image" style="margin: 2rem auto;">
-              <img src="static/images/Unbiased_EM-BSDE.png"
-                alt="Illustration of the one-step loss computation for Un-EM-BSDE"
-                style="border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
-              <figcaption class="has-text-centered"
-                style="margin-top: 1rem; font-size: 0.95rem; color: #64748b; line-height: 1.6;">
-                <strong>Figure 1.</strong> One-step loss computation with M₁ = M₂ = 2. 
-                Errors from two independently formed groups are multiplied to produce an unbiased estimator.
-              </figcaption>
-            </figure>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Results Section -->
-    <section class="section hero is-light">
+    <section class="section hero">
       <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <h2 class="title is-3">Results</h2>
+        
+        <!-- Table 1 -->
+        <div class="columns is-centered">
+          <div class="column is-full">
+            <h2 class="title is-3 has-text-centered">Computational Efficiency</h2>
             <div class="content has-text-justified">
               <p>
-                Un-EM-BSDE achieves accuracy comparable to Heun-BSDE and FS-PINNs while maintaining 
-                training time similar to EM-BSDE (1.79× vs 42.91× and 32.07×).
+                Our method maintains a substantially lower computational cost compared to fully unbiased baselines, achieving training times nearly identical to the standard biased EM-BSDE.
               </p>
             </div>
-          </div>
-        </div>
-        
-        <!-- Comparison Table -->
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
             <figure class="image" style="margin: 2rem auto;">
-              <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+              <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="margin: 2rem 0; font-size: 0.95rem;">
                 <thead>
-                  <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
-                    <th style="padding: 1rem; text-align: left;">Method</th>
-                    <th style="padding: 1rem; text-align: center;">Unbiased</th>
-                    <th style="padding: 1rem; text-align: center;">2nd-order-free</th>
-                    <th style="padding: 1rem; text-align: center;">Time</th>
+                  <tr style="background: #f8fafc;">
+                    <th class="has-text-left">Method</th>
+                    <th class="has-text-centered">Unbiased</th>
+                    <th class="has-text-centered">2nd-order-free</th>
+                    <th class="has-text-centered">Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 0.75rem;">EM-BSDE</td>
-                    <td style="padding: 0.75rem; text-align: center;">✗</td>
-                    <td style="padding: 0.75rem; text-align: center;">✓</td>
-                    <td style="padding: 0.75rem; text-align: center;">1×</td>
+                  <tr>
+                    <td>EM-BSDE <span class="is-size-7 has-text-grey">(Raissi et al., 2024)</span></td>
+                    <td class="has-text-centered"><i class="fas fa-times" style="color: #ef4444;"></i></td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered">1x</td>
                   </tr>
-                  <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 0.75rem;">Heun-BSDE</td>
-                    <td style="padding: 0.75rem; text-align: center;">✓</td>
-                    <td style="padding: 0.75rem; text-align: center;">✗</td>
-                    <td style="padding: 0.75rem; text-align: center;">42.91×</td>
+                  <tr>
+                    <td>Shotgun <span class="is-size-7 has-text-grey">(Xu et al., 2025)</span></td>
+                    <td class="has-text-centered"><i class="fas fa-times" style="color: #ef4444;"></i></td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered">0.75x</td>
                   </tr>
-                  <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 0.75rem;">FS-PINNs</td>
-                    <td style="padding: 0.75rem; text-align: center;">✓</td>
-                    <td style="padding: 0.75rem; text-align: center;">✗</td>
-                    <td style="padding: 0.75rem; text-align: center;">32.07×</td>
+                  <tr>
+                    <td>Multi-Shot EM-BSDE</td>
+                    <td class="has-text-centered"><i class="fas fa-times" style="color: #ef4444;"></i></td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered">1.74x</td>
                   </tr>
-                  <tr style="background: #fef2f2; border-bottom: 2px solid #e2e8f0; font-weight: 600;">
-                    <td style="padding: 0.75rem;">Un-EM-BSDE (Ours)</td>
-                    <td style="padding: 0.75rem; text-align: center;">✓</td>
-                    <td style="padding: 0.75rem; text-align: center;">✓</td>
-                    <td style="padding: 0.75rem; text-align: center;">1.79×</td>
+                  <tr>
+                    <td>Heun-BSDE <span class="is-size-7 has-text-grey">(Park et al., 2025)</span></td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered"><i class="fas fa-times" style="color: #ef4444;"></i></td>
+                    <td class="has-text-centered">42.91x</td>
+                  </tr>
+                  <tr>
+                    <td>FS-PINNs <span class="is-size-7 has-text-grey">(Park et al., 2025)</span></td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered"><i class="fas fa-times" style="color: #ef4444;"></i></td>
+                    <td class="has-text-centered">32.07x</td>
+                  </tr>
+                  <tr style="background: #fef2f2; font-weight: 600;">
+                    <td>Un-EM-BSDE (ours)</td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered"><i class="fas fa-check" style="color: #3b82f6;"></i></td>
+                    <td class="has-text-centered has-text-weight-bold">1.79x</td>
                   </tr>
                 </tbody>
               </table>
               <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
-                <strong>Table 1.</strong> Comparison of properties and computational cost
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-
-        <!-- Error Evolution Plot -->
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <figure class="image" style="margin: 2rem auto;">
-              <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
-                <p style="color: #64748b; text-align: center; font-size: 0.9rem;">
-                  [Placeholder for Figure 2: Time-resolved relative error plot showing our method maintains low error across time]
-                </p>
-              </div>
-              <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
-                <strong>Figure 2.</strong> Relative error remains stable across PDE time domain
+                <strong>Table 1.</strong> Summary of bias properties, computational requirements, and training time.
               </figcaption>
             </figure>
           </div>
         </div>
 
         <!-- Runtime-Accuracy Plot -->
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <figure class="image" style="margin: 2rem auto;">
-              <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
-                <p style="color: #64748b; text-align: center; font-size: 0.9rem;">
-                  [Placeholder for Figure 3: Runtime-accuracy plot showing our method achieves competitive accuracy with significantly lower cost]
-                </p>
-              </div>
+        <div class="columns is-centered" style="margin-top: 4rem;">
+          <div class="column is-full">
+            <h2 class="title is-3 has-text-centered">Runtime vs. Accuracy</h2>
+            <div class="content has-text-justified">
+              <p>
+                As shown in the runtime-accuracy plot below, baseline methods take a significantly long time to converge. In contrast, <strong>Un-EM-BSDE achieves high accuracy rapidly</strong>, vastly outperforming the others in terms of efficiency.
+              </p>
+            </div>
+            <figure class="image" style="margin: 2rem auto; text-align: center;">
+              <img src="static/images/RL2_over_runtime.png" alt="Runtime-accuracy on the BSB benchmark" style="max-width: 80%; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); margin: 0 auto; display: inline-block;">
               <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
-                <strong>Figure 3.</strong> Competitive accuracy at substantially lower computational cost
+                <strong>Figure 2.</strong> Runtime–accuracy on the BSB benchmark: RL2 recorded over runtime. Both axes are plotted on a log scale.
               </figcaption>
             </figure>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Conclusion Section -->
-    <section class="section hero">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <h2 class="title is-3">Conclusion</h2>
+        <!-- HJB Trajectory Plots -->
+        <div class="columns is-centered" style="margin-top: 4rem;">
+          <div class="column is-full">
+            <h2 class="title is-3 has-text-centered">HJB Path Prediction</h2>
             <div class="content has-text-justified">
               <p>
-                Un-EM-BSDE removes discretization-induced bias without requiring second-order derivatives, 
-                achieving strong accuracy while maintaining computational efficiency comparable to EM-BSDE.
+                Visualizing the errors in the Hamilton-Jacobi-Bellman (HJB) equation demonstrates the superior precision of our methodology. The error bands remain remarkably tight across both hard and soft constraint settings.
               </p>
+            </div>
+            
+            <div class="columns is-centered">
+              <div class="column is-half">
+                <figure class="image" style="margin: 1rem auto; text-align: center;">
+                  <img src="static/images/HJB_trajectory_hard.png" alt="HJB(d=100) path prediction with error band in the hard-constraint setting" style="border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                  <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
+                    HJB (d=100) path prediction with error band in the hard-constraint setting.
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="column is-half">
+                <figure class="image" style="margin: 1rem auto; text-align: center;">
+                  <img src="static/images/HJB_trajectory_soft.png" alt="HJB(d=100) path prediction with error band in the soft-constraint setting" style="border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                  <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
+                    HJB (d=100) path prediction with error band in the soft-constraint setting.
+                  </figcaption>
+                </figure>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -308,7 +277,15 @@
             <span class="copy-text">Copy</span>
           </button>
         </div>
-        <pre id="bibtex-code"><code>TBD</code></pre>
+        <pre id="bibtex-code"><code>@misc{seo2026unbiasedsecondorderfreetraininghighdimensional,
+      title={Unbiased and Second-Order-Free Training for High-Dimensional PDEs}, 
+      author={Jaemin Seo and Surin Lee and Jae Yong Lee},
+      year={2026},
+      eprint={2605.14643},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2605.14643}, 
+}</code></pre>
       </div>
     </section>
 
