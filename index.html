@@ -143,16 +143,9 @@
             <h2 class="title is-3">Abstract</h2>
             <div class="content has-text-justified">
               <p>
-                Deep learning methods based on backward stochastic differential equations (BSDEs) have emerged as
-                competitive alternatives to physics-informed neural networks (PINNs) for solving high-dimensional
-                partial differential equations (PDEs). By leveraging probabilistic representations, BSDE approaches can
-                avoid the curse of dimensionality and often admit second-order-free training objectives that do not
-                require explicit Hessian evaluations. It has recently been established that the commonly used
-                Euler–Maruyama (EM) time discretization induces an intrinsic bias in BSDE training losses. While
-                high-order schemes such as Heun can fully eliminate this bias, such schemes re-introduce second-order
-                spatial derivatives and incur substantial computational overhead. In this work, we provide a principled
-                analysis of EM-induced loss bias and propose an unbiased, second-order-free training framework that
-                preserves the computational advantages of BSDE methods.
+                We propose <strong>Un-EM-BSDE</strong>, an unbiased and second-order-free training framework for BSDE-based 
+                PDE solvers. Our method eliminates Euler-Maruyama discretization bias without requiring Hessian computations, 
+                achieving accuracy comparable to unbiased baselines while maintaining training efficiency similar to EM-BSDE.
               </p>
             </div>
           </div>
@@ -165,19 +158,11 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered has-text-centered">
           <div class="column is-four-fifths">
-            <h2 class="title is-3">Proposed Method</h2>
+            <h2 class="title is-3">Method</h2>
             <div class="content has-text-justified">
               <p>
-                We propose an <strong>Un-EM-BSDE</strong> loss that removes the discretization-induced bias while
-                keeping the computational cost comparable to the standard EM-BSDE objective. We also show that the
-                resulting estimator has a variance comparable to that of the original EM-BSDE loss.
-              </p>
-              <p>
-                Motivated by a bias-variance decomposition perspective and inspired by related constructions in Hu et
-                al. (2025), we propose the Un-EM-BSDE objective. The key idea is to form the objective using independent
-                draws of the one-step error, so that the expectation is factorized. Since each factor provides an
-                unbiased estimate of its corresponding continuous-time quantity, their product yields an unbiased
-                estimator for the target objective.
+                Un-EM-BSDE eliminates discretization bias by forming independent error groups and multiplying their averages, 
+                yielding an unbiased estimator without second-order derivatives.
               </p>
             </div>
           </div>
@@ -191,11 +176,104 @@
                 style="border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
               <figcaption class="has-text-centered"
                 style="margin-top: 1rem; font-size: 0.95rem; color: #64748b; line-height: 1.6;">
-                <strong>Figure 1.</strong> Illustration of the one-step loss computation for Un-EM-BSDE with M₁ = M₂ =
-                2. The many gray curves visualize the randomness of solution trajectories (possible SDE sample paths).
-                The dashed curves denote a ground-truth trajectory, whereas the solid curves indicate the one-step
-                predicted trajectory. The errors from the two independently formed groups are multiplied to produce an
-                unbiased estimator.
+                <strong>Figure 1.</strong> One-step loss computation with M₁ = M₂ = 2. 
+                Errors from two independently formed groups are multiplied to produce an unbiased estimator.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Results</h2>
+            <div class="content has-text-justified">
+              <p>
+                Un-EM-BSDE achieves accuracy comparable to Heun-BSDE and FS-PINNs while maintaining 
+                training time similar to EM-BSDE (1.79× vs 42.91× and 32.07×).
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Comparison Table -->
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <figure class="image" style="margin: 2rem auto;">
+              <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                    <th style="padding: 1rem; text-align: left;">Method</th>
+                    <th style="padding: 1rem; text-align: center;">Unbiased</th>
+                    <th style="padding: 1rem; text-align: center;">2nd-order-free</th>
+                    <th style="padding: 1rem; text-align: center;">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 0.75rem;">EM-BSDE</td>
+                    <td style="padding: 0.75rem; text-align: center;">✗</td>
+                    <td style="padding: 0.75rem; text-align: center;">✓</td>
+                    <td style="padding: 0.75rem; text-align: center;">1×</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 0.75rem;">Heun-BSDE</td>
+                    <td style="padding: 0.75rem; text-align: center;">✓</td>
+                    <td style="padding: 0.75rem; text-align: center;">✗</td>
+                    <td style="padding: 0.75rem; text-align: center;">42.91×</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 0.75rem;">FS-PINNs</td>
+                    <td style="padding: 0.75rem; text-align: center;">✓</td>
+                    <td style="padding: 0.75rem; text-align: center;">✗</td>
+                    <td style="padding: 0.75rem; text-align: center;">32.07×</td>
+                  </tr>
+                  <tr style="background: #fef2f2; border-bottom: 2px solid #e2e8f0; font-weight: 600;">
+                    <td style="padding: 0.75rem;">Un-EM-BSDE (Ours)</td>
+                    <td style="padding: 0.75rem; text-align: center;">✓</td>
+                    <td style="padding: 0.75rem; text-align: center;">✓</td>
+                    <td style="padding: 0.75rem; text-align: center;">1.79×</td>
+                  </tr>
+                </tbody>
+              </table>
+              <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
+                <strong>Table 1.</strong> Comparison of properties and computational cost
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- Error Evolution Plot -->
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <figure class="image" style="margin: 2rem auto;">
+              <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                <p style="color: #64748b; text-align: center; font-size: 0.9rem;">
+                  [Placeholder for Figure 2: Time-resolved relative error plot showing our method maintains low error across time]
+                </p>
+              </div>
+              <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
+                <strong>Figure 2.</strong> Relative error remains stable across PDE time domain
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- Runtime-Accuracy Plot -->
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <figure class="image" style="margin: 2rem auto;">
+              <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                <p style="color: #64748b; text-align: center; font-size: 0.9rem;">
+                  [Placeholder for Figure 3: Runtime-accuracy plot showing our method achieves competitive accuracy with significantly lower cost]
+                </p>
+              </div>
+              <figcaption class="has-text-centered" style="margin-top: 1rem; font-size: 0.95rem; color: #64748b;">
+                <strong>Figure 3.</strong> Competitive accuracy at substantially lower computational cost
               </figcaption>
             </figure>
           </div>
@@ -211,14 +289,8 @@
             <h2 class="title is-3">Conclusion</h2>
             <div class="content has-text-justified">
               <p>
-                We presented an unbiased training objective for EM-BSDE–type solvers that removes discretization-induced
-                bias without requiring explicit second-order derivative computations. Across standard benchmarks and
-                more practically motivated extensions, the proposed method achieves consistently strong accuracy while
-                keeping training time comparable to EM-BSDE and substantially lower than Hessian-based unbiased
-                alternatives. Moreover, the same randomized construction can be used as a plug-in correction for other
-                biased one-step objectives, as illustrated by debiasing the Shotgun loss. Future work includes
-                integrating the proposed method with adaptive time-stepping to better allocate computation across time
-                and improve efficiency on stiff or multi-scale dynamics.
+                Un-EM-BSDE removes discretization-induced bias without requiring second-order derivatives, 
+                achieving strong accuracy while maintaining computational efficiency comparable to EM-BSDE.
               </p>
             </div>
           </div>
